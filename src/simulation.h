@@ -119,7 +119,7 @@ class Simulation
         std::vector<GyroMeasurement> m_gyro_measurement_history;
         std::vector<AccelMeasurement> m_accel_measurement_history;
         std::vector<OdoMeasurement> m_odo_measurement_history;
-        std::vector<Vector> m_pitch_measurement_history;
+        std::vector<double> m_pitch_measurement_history;
         std::vector<Vector2> m_vehicle_position_history;
         std::vector<Vector2> m_filter_position_history;
 
