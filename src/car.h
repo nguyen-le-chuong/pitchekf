@@ -8,11 +8,11 @@
 
 struct VehicleState
 {
-    double x,y,psi,V;
-    double yaw_rate,steering;
-    VehicleState():x(0.0), y(0.0), psi(0.0), V(0.0), yaw_rate(0.0), steering(0.0) {}
-    VehicleState(double setX, double setY, double setPsi, double setV):x(setX), y(setY), psi(setPsi), V(setV), yaw_rate(0.0),steering(0.0) {}
-    VehicleState(double setX, double setY, double setPsi, double setV, double setPsiDot, double setSteering):x(setX), y(setY), psi(setPsi), V(setV), yaw_rate(setPsiDot),steering(setSteering) {}
+    double R31, R32, R33;
+    double pitch;
+    VehicleState():R31(0.0), R32(0.0), R33(1.0), pitch(0.0) {}
+    VehicleState(double setR31, double setR32, double setR32, double setPitch):R31(setR31), R32(setR32), R33(setR33), pitch(setPitch) {}
+    // VehicleState(double setX, double setY, double setPsi, double setV, double setPsiDot, double setSteering):x(setX), y(setY), psi(setPsi), V(setV), yaw_rate(setPsiDot),steering(setSteering) {}
 };
 
 class MotionCommandBase

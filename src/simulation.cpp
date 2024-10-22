@@ -1,7 +1,7 @@
 
 #include "simulation.h"
 #include "utils.h"
-
+#include "math.h"
 
 Simulation::Simulation()
 : m_sim_parameters(SimulationParams()),
@@ -11,8 +11,8 @@ Simulation::Simulation()
     m_view_size(100),
     m_time(0.0),
     m_time_till_gyro_measurement(0.0),
-    m_time_till_gps_measurement(0.0),
-    m_time_till_lidar_measurement(0.0)
+    m_time_till_accel_measurement(0.0),
+    m_time_till_odo_measurement(0.0)
 {}
 
 void Simulation::reset()
@@ -20,34 +20,47 @@ void Simulation::reset()
     // Reset Simulation
     m_time = 0.0;
     m_time_till_gyro_measurement = 0.0;
-    m_time_till_gps_measurement = 0.0;
-    m_time_till_lidar_measurement= 0.0;
+    m_time_till_accel_measurement = 0.0;
+    m_time_till_odo_measurement = 0.0;
+    // m_time_till_gps_measurement = 0.0;
+    // m_time_till_lidar_measurement= 0.0;
 
     m_is_running = true;
     m_is_paused = false;
     
     m_kalman_filter.reset();
 
-    m_gps_sensor.reset();
-    m_gps_sensor.setGPSNoiseStd(m_sim_parameters.gps_position_noise_std);
-    m_gps_sensor.setGPSErrorProb(m_sim_parameters.gps_error_probability);
-    m_gps_sensor.setGPSDeniedZone(m_sim_parameters.gps_denied_x, m_sim_parameters.gps_denied_y, m_sim_parameters.gps_denied_range);
+    // m_gps_sensor.reset();
+    // m_gps_sensor.setGPSNoiseStd(m_sim_parameters.gps_position_noise_std);
+    // m_gps_sensor.setGPSErrorProb(m_sim_parameters.gps_error_probability);
+    // m_gps_sensor.setGPSDeniedZone(m_sim_parameters.gps_denied_x, m_sim_parameters.gps_denied_y, m_sim_parameters.gps_denied_range);
 
     m_gyro_sensor.reset();
     m_gyro_sensor.setGyroNoiseStd(m_sim_parameters.gyro_noise_std);
     m_gyro_sensor.setGyroBias(m_sim_parameters.gyro_bias);
 
-    m_lidar_sensor.reset();
-    m_lidar_sensor.setLidarNoiseStd(m_sim_parameters.lidar_range_noise_std, m_sim_parameters.lidar_theta_noise_std);
-    m_lidar_sensor.setLidarDAEnabled(m_sim_parameters.lidar_id_enabled);
+    m_accel_sensor.reset();
+    m_accel_sensor.setAccelNoiseStd(m_sim_parameters.accel_noise_std);
+    m_accel_sensor.setAccelBias(m_sim_parameters.accel_bias);
 
-    m_car.reset(m_sim_parameters.car_initial_x, m_sim_parameters.car_initial_y,m_sim_parameters.car_initial_psi, m_sim_parameters.car_initial_velocity);
+    m_odo_sensor.reset();
+    m_odo_sensor.setOdoNoiseStd(m_sim_parameters.odo_noise_std);
+    m_odo_sensor.setOdoBias(m_sim_parameters.odo_bias);
+
+    m_front_sensor.reset();
+    m_rear_sensor.reset();
+
+    // m_lidar_sensor.reset();
+    // m_lidar_sensor.setLidarNoiseStd(m_sim_parameters.lidar_range_noise_std, m_sim_parameters.lidar_theta_noise_std);
+    // m_lidar_sensor.setLidarDAEnabled(m_sim_parameters.lidar_id_enabled);
+
+    m_car.reset(m_sim_parameters.car_initial_R31, m_sim_parameters.car_initial_R32,m_sim_parameters.car_initial_R33);
     
     for(auto& cmd : m_sim_parameters.car_commands){m_car.addVehicleCommand(cmd.get());}
 
     // Plotting Variables
-    m_gps_measurement_history.clear();
-    m_lidar_measurement_history.clear();
+    // m_gps_measurement_history.clear();
+    // m_lidar_measurement_history.clear();
     m_vehicle_position_history.clear();
     m_filter_position_history.clear();
 
@@ -78,56 +91,80 @@ void Simulation::update()
 
             // Update Motion
             m_car.update(m_time, m_sim_parameters.time_step);
-            m_vehicle_position_history.push_back(Vector2(m_car.getVehicleState().x,m_car.getVehicleState().y));
+            m_vehicle_pitch_history.push_back(m_car.pitch);
 
             // Gyro Measurement / Prediction Step
             if (m_sim_parameters.gyro_enabled)
             {
                 if (m_time_till_gyro_measurement <= 0)
                 {
-                    GyroMeasurement meas = m_gyro_sensor.generateGyroMeasurement(m_car.getVehicleState().yaw_rate);
-                    m_kalman_filter.predictionStep(meas, m_sim_parameters.time_step);
+                    GyroMeasurement gyro_meas = m_gyro_sensor.generateGyroMeasurement(m_car.getVehicleState().yaw_rate);
+                    m_kalman_filter.predictionStep(gyro_meas, m_sim_parameters.time_step);
                     m_time_till_gyro_measurement += 1.0/m_sim_parameters.gyro_update_rate;
                 }
                 m_time_till_gyro_measurement -= m_sim_parameters.time_step;
             }
 
-            // GPS Measurement
-            if (m_sim_parameters.gps_enabled)
+            if (m_sim_parameters.accel_enabled)
             {
-                if (m_time_till_gps_measurement <= 0)
+                if (m_time_till_accel_measurement <= 0) 
                 {
-                    GPSMeasurement gps_meas = m_gps_sensor.generateGPSMeasurement(m_car.getVehicleState().x,m_car.getVehicleState().y);
-                    m_kalman_filter.handleGPSMeasurement(gps_meas);
-                    m_gps_measurement_history.push_back(gps_meas);
-                    m_time_till_gps_measurement += 1.0/m_sim_parameters.gps_update_rate;
+                    AccelMeasurement accel_meas = m_accel_sensor.generateAccelMeasurement(m_car.getVehicleState().yaw_rate);
+                    m_time_till_accel_measurement += 1.0/m_sim_parameters.accel_update_rate;
                 }
-                m_time_till_gps_measurement -= m_sim_parameters.time_step;
+                m_time_till_accel_measurement -= m_sim_parameters.time_step;
             }
 
-            // Lidar Measurement
-            if (m_sim_parameters.lidar_enabled)
+            if (m_sim_parameters.odo_enabled)
             {
-                if (m_time_till_lidar_measurement <= 0)
+                if (m_time_till_odo_measurement <= 0)
                 {
-                    std::vector<LidarMeasurement> lidar_measurements = m_lidar_sensor.generateLidarMeasurements(m_car.getVehicleState().x,m_car.getVehicleState().y, m_car.getVehicleState().psi, m_beacons);
-                    m_kalman_filter.handleLidarMeasurements(lidar_measurements, m_beacons);
-                    m_lidar_measurement_history = lidar_measurements;
-                    m_time_till_lidar_measurement += 1.0/m_sim_parameters.lidar_update_rate;
+                    OdoMeasurement v_meas = m_omo_sensor.generateOdoMeasurement(m_car.getVehicleState().yaw_rate);
+                    m_time_till_odo_measurement += 1.0/m_sim_parameters.odo_update_rate
                 }
-                m_time_till_lidar_measurement -= m_sim_parameters.time_step;
+                m_time_till_odo_measurement -= m_sim_parameters.time_step;
             }
+            m_kalman_filter.measurementStep1(accel_meas, gyro_meas, v_meas);
+            m_kalman_filter.measurementStep2();
+
+            // m_pitch_measurement_history.push_back()
+            // GPS Measurement
+            // if (m_sim_parameters.gps_enabled)
+            // {
+            //     if (m_time_till_gps_measurement <= 0)
+            //     {
+            //         GPSMeasurement gps_meas = m_gps_sensor.generateGPSMeasurement(m_car.getVehicleState().x,m_car.getVehicleState().y);
+            //         m_kalman_filter.handleGPSMeasurement(gps_meas);
+            //         m_gps_measurement_history.push_back(gps_meas);
+            //         m_time_till_gps_measurement += 1.0/m_sim_parameters.gps_update_rate;
+            //     }
+            //     m_time_till_gps_measurement -= m_sim_parameters.time_step;
+            // }
+
+            // // Lidar Measurement
+            // if (m_sim_parameters.lidar_enabled)
+            // {
+            //     if (m_time_till_lidar_measurement <= 0)
+            //     {
+            //         std::vector<LidarMeasurement> lidar_measurements = m_lidar_sensor.generateLidarMeasurements(m_car.getVehicleState().x,m_car.getVehicleState().y, m_car.getVehicleState().psi, m_beacons);
+            //         m_kalman_filter.handleLidarMeasurements(lidar_measurements, m_beacons);
+            //         m_lidar_measurement_history = lidar_measurements;
+            //         m_time_till_lidar_measurement += 1.0/m_sim_parameters.lidar_update_rate;
+            //     }
+            //     m_time_till_lidar_measurement -= m_sim_parameters.time_step;
+            // }
 
             // Save Filter History and Calculate Stats
             if (m_kalman_filter.isInitialised())
             {
                 VehicleState vehicle_state = m_car.getVehicleState();
                 VehicleState filter_state = m_kalman_filter.getVehicleState();
-                m_filter_position_history.push_back(Vector2(filter_state.x, filter_state.y));
-                m_filter_error_x_position_history.push_back(filter_state.x - vehicle_state.x);
-                m_filter_error_y_position_history.push_back(filter_state.y - vehicle_state.y);
-                m_filter_error_heading_history.push_back(wrapAngle(filter_state.psi - vehicle_state.psi));
-                m_filter_error_velocity_history.push_back(filter_state.V - vehicle_state.V);
+                m_filter_error_pitch_history.push_back(filter_state.pitch - vehicle_state.pitch)
+                m_filter_pitch_history.push_back(filter_state.pitch);
+                // m_filter_error_x_position_history.push_back(filter_state.x - vehicle_state.x);
+                // m_filter_error_y_position_history.push_back(filter_state.y - vehicle_state.y);
+                // m_filter_error_heading_history.push_back(wrapAngle(filter_state.psi - vehicle_state.psi));
+                // m_filter_error_velocity_history.push_back(filter_state.V - vehicle_state.V);
             }
 
             // Update Time

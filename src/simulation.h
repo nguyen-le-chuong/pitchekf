@@ -36,6 +36,20 @@ struct SimulationParams
     double gyro_noise_std;
     double gyro_bias;
 
+    bool accel_enabled;
+    double accel_update_rate;
+    double accel_noise_std;
+    double accel_bias;
+
+    bool odo_enabled;
+    double odo_update_rate;
+    double odo_noise_std;
+    double odo_bias;
+
+    double car_initial_R31;
+    double car_initial_R32;
+    double car_initial_R33;
+
     double car_initial_x;
     double car_initial_y;
     double car_initial_psi;
@@ -46,10 +60,10 @@ struct SimulationParams
     SimulationParams()
     :profile_name(""),
      time_step(0.1),end_time(120),
-     gps_enabled(true), gps_update_rate(1.0), gps_position_noise_std(3), gps_error_probability(0.0),gps_denied_x(0.0),gps_denied_y(0.0),gps_denied_range(-1.0),
-     lidar_enabled(false), lidar_id_enabled(true), lidar_update_rate(10.0),lidar_range_noise_std(3),lidar_theta_noise_std(0.02),
      gyro_enabled(true), gyro_update_rate(10.0),gyro_noise_std(0.001), gyro_bias(0.0),
-     car_initial_x(0.0),car_initial_y(0.0),car_initial_psi(0.0),car_initial_velocity(5.0)
+     accel_enabled(true), accel_update_rate(10.0),accel_noise_std(0.001), accel_bias(0.0),
+     odo_enabled(true), odo_update_rate(10.0),odo_noise_std(0.001), odo_bias(0.0),
+     car_initial_R31(0.0), car_initial_R32(0.0), car_initial_R33(1.0), car_initial_velocity(0.0)
     {}
 };
 
@@ -81,6 +95,10 @@ class Simulation
         GyroSensor m_gyro_sensor;
         GPSSensor m_gps_sensor;
         LidarSensor m_lidar_sensor;
+        AccelSensor m_accel_sensor;
+        OdoSensor m_odo_sensor;
+        FrontHeightSensor m_front_sensor;
+        RearHeightSensor m_rear_sensor;
 
         bool m_is_paused;
         bool m_is_running;
@@ -89,17 +107,27 @@ class Simulation
 
         double m_time;
         double m_time_till_gyro_measurement;
-        double m_time_till_gps_measurement;
-        double m_time_till_lidar_measurement;
+        double m_time_till_accel_measurement;
+        double m_time_till_odo_measurement;
+
+        // double m_time_till_gps_measurement;
+        // double m_time_till_lidar_measurement;
+        double m_time_till_pitch_measurement;
 
         std::vector<GPSMeasurement> m_gps_measurement_history;
         std::vector<LidarMeasurement> m_lidar_measurement_history;
-
+        std::vector<GyroMeasurement> m_gyro_measurement_history;
+        std::vector<AccelMeasurement> m_accel_measurement_history;
+        std::vector<OdoMeasurement> m_odo_measurement_history;
+        std::vector<Vector> m_pitch_measurement_history;
         std::vector<Vector2> m_vehicle_position_history;
         std::vector<Vector2> m_filter_position_history;
 
         std::vector<double> m_filter_error_x_position_history;
         std::vector<double> m_filter_error_y_position_history;
+
+        std::vector<double> m_filter_error_pitch_history;
+
         std::vector<double> m_filter_error_heading_history;
         std::vector<double> m_filter_error_velocity_history;
 
