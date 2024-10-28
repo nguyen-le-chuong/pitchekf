@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o.d"
   "CMakeFiles/AKFSFSimulation.dir/src/main.cpp.o"
   "CMakeFiles/AKFSFSimulation.dir/src/main.cpp.o.d"
+  "CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o"
+  "CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o.d"
   "CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o"
   "CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o.d"
   "CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o"

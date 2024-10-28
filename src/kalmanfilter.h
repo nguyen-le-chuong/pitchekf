@@ -15,6 +15,7 @@ using Eigen::Vector4d;
 using Eigen::MatrixXd;
 using Eigen::Matrix2d;
 using Eigen::Matrix4d;
+using Eigen::Matrix3d;
 
 class KalmanFilterBase
 {

@@ -3,11 +3,15 @@
 
 #include <random>
 #include <vector>
-
+#include <Eigen/Dense>
+#include <Eigen/SVD>
+#include <Eigen/Core>
 // struct GPSMeasurement{double x,y;};
-struct AccelMeasurement{double ax; double ay;};
+struct AccelMeasurement{double ax; double ay; double az;};
 struct OdoMeasurement{double v;};
 struct GyroMeasurement{double wx; double wy; double wz;};
+struct FrontHeightMeasurement{double a;};
+struct RearHeightMeasurement{double a;};
 // struct LidarMeasurement{double range, theta;int id;};
 
 class BeaconMap;
@@ -40,7 +44,7 @@ class GyroSensor
         void reset();
         void setGyroNoiseStd(double std);
         void setGyroBias(double bias);
-        GyroMeasurement generateGyroMeasurement(double gyro);
+        GyroMeasurement generateGyroMeasurement(Eigen::VectorXd gyro);
 
     private:
 
@@ -57,13 +61,13 @@ class AccelSensor
         void reset();
         void setAccelNoiseStd(double std);
         void setAccelBias(double bias);
-        AccelMeasurement generateAccelMeasurement(double a);
+        AccelMeasurement generateAccelMeasurement(Eigen::VectorXd a);
     
     private:
-        std:mt19937 m_rand_gen;
+        std::mt19937 m_rand_gen;
         double m_noise_std;
         double m_bias;
-}
+};
 
 
 class OdoSensor
@@ -76,10 +80,10 @@ class OdoSensor
         OdoMeasurement generateOdoMeasurement(double a);
 
     private:
-        std:mt19937 m_rand_gen;
+        std::mt19937 m_rand_gen;
         double m_noise_std;
         double m_bias;
-}
+};
 
 class FrontHeightSensor
 {
@@ -88,15 +92,15 @@ class FrontHeightSensor
         void reset();
         FrontHeightMeasurement getFrontHeightMeasurement(double a);
         
-}
+};
 
 class RearHeightSensor
 {
     public:
         RearHeightSensor();
         void reset();
-        ReatHeightMeasurement getRearHeightMeasurement(double a);
-} 
+        RearHeightMeasurement getRearHeightMeasurement(double a);
+};
 
 // class LidarSensor
 // {

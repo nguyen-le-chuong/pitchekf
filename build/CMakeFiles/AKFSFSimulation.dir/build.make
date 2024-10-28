@@ -83,10 +83,24 @@ CMakeFiles/AKFSFSimulation.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/AKFSFSimulation.dir/src/main.cpp.s"
 	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/chuongnl1/project/pitchekf/src/main.cpp -o CMakeFiles/AKFSFSimulation.dir/src/main.cpp.s
 
+CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o: CMakeFiles/AKFSFSimulation.dir/flags.make
+CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o: /home/chuongnl1/project/pitchekf/src/readData.cpp
+CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o: CMakeFiles/AKFSFSimulation.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o"
+	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o -MF CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o.d -o CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o -c /home/chuongnl1/project/pitchekf/src/readData.cpp
+
+CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.i"
+	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/chuongnl1/project/pitchekf/src/readData.cpp > CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.i
+
+CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.s"
+	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/chuongnl1/project/pitchekf/src/readData.cpp -o CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.s
+
 CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o: CMakeFiles/AKFSFSimulation.dir/flags.make
 CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o: /home/chuongnl1/project/pitchekf/src/display.cpp
 CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o: CMakeFiles/AKFSFSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o"
 	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o -MF CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o.d -o CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o -c /home/chuongnl1/project/pitchekf/src/display.cpp
 
 CMakeFiles/AKFSFSimulation.dir/src/display.cpp.i: cmake_force
@@ -100,7 +114,7 @@ CMakeFiles/AKFSFSimulation.dir/src/display.cpp.s: cmake_force
 CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o: CMakeFiles/AKFSFSimulation.dir/flags.make
 CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o: /home/chuongnl1/project/pitchekf/src/beacons.cpp
 CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o: CMakeFiles/AKFSFSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o"
 	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o -MF CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o.d -o CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o -c /home/chuongnl1/project/pitchekf/src/beacons.cpp
 
 CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.i: cmake_force
@@ -114,7 +128,7 @@ CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.s: cmake_force
 CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o: CMakeFiles/AKFSFSimulation.dir/flags.make
 CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o: /home/chuongnl1/project/pitchekf/src/sensors.cpp
 CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o: CMakeFiles/AKFSFSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o"
 	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o -MF CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o.d -o CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o -c /home/chuongnl1/project/pitchekf/src/sensors.cpp
 
 CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.i: cmake_force
@@ -128,7 +142,7 @@ CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.s: cmake_force
 CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o: CMakeFiles/AKFSFSimulation.dir/flags.make
 CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o: /home/chuongnl1/project/pitchekf/src/simulation.cpp
 CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o: CMakeFiles/AKFSFSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o"
 	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o -MF CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o.d -o CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o -c /home/chuongnl1/project/pitchekf/src/simulation.cpp
 
 CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.i: cmake_force
@@ -142,7 +156,7 @@ CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.s: cmake_force
 CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o: CMakeFiles/AKFSFSimulation.dir/flags.make
 CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o: /home/chuongnl1/project/pitchekf/src/utils.cpp
 CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o: CMakeFiles/AKFSFSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o"
 	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o -MF CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o.d -o CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o -c /home/chuongnl1/project/pitchekf/src/utils.cpp
 
 CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.i: cmake_force
@@ -156,7 +170,7 @@ CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.s: cmake_force
 CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o: CMakeFiles/AKFSFSimulation.dir/flags.make
 CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o: /home/chuongnl1/project/pitchekf/src/kalmanfilter.cpp
 CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o: CMakeFiles/AKFSFSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o"
 	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o -MF CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o.d -o CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o -c /home/chuongnl1/project/pitchekf/src/kalmanfilter.cpp
 
 CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.i: cmake_force
@@ -170,6 +184,7 @@ CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.s: cmake_force
 # Object files for target AKFSFSimulation
 AKFSFSimulation_OBJECTS = \
 "CMakeFiles/AKFSFSimulation.dir/src/main.cpp.o" \
+"CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o" \
 "CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o" \
 "CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o" \
 "CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o" \
@@ -181,6 +196,7 @@ AKFSFSimulation_OBJECTS = \
 AKFSFSimulation_EXTERNAL_OBJECTS =
 
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/main.cpp.o
+AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o
@@ -189,7 +205,7 @@ AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/build.make
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable AKFSFSimulation"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable AKFSFSimulation"
 	/usr/local/bin/cmake -E copy_directory /home/chuongnl1/project/pitchekf/data/ /home/chuongnl1/project/pitchekf/build
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/AKFSFSimulation.dir/link.txt --verbose=$(VERBOSE)
 

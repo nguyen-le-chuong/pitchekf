@@ -17,20 +17,6 @@ struct SimulationParams
     double time_step;
     double end_time;
 
-    bool gps_enabled;
-    double gps_update_rate;
-    double gps_position_noise_std;
-    double gps_error_probability;
-    double gps_denied_x;
-    double gps_denied_y;
-    double gps_denied_range;
-
-    bool lidar_enabled;
-    bool lidar_id_enabled;
-    double lidar_update_rate;
-    double lidar_range_noise_std;
-    double lidar_theta_noise_std;
-
     bool gyro_enabled;
     double gyro_update_rate;
     double gyro_noise_std;
@@ -55,7 +41,7 @@ struct SimulationParams
     double car_initial_psi;
     double car_initial_velocity;
 
-    std::vector<std::shared_ptr<MotionCommandBase>> car_commands;
+    // std::vector<std::shared_ptr<MotionCommandBase>> car_commands;
 
     SimulationParams()
     :profile_name(""),
@@ -75,8 +61,8 @@ class Simulation
         Simulation();
         void reset();
         void reset(SimulationParams sim_params);
-        void update();
-        void render(Display& disp);
+        void update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double h_rear, double h_front, time_t& m_time, double& delta_t);
+        // void render(Display& disp);
         void increaseTimeMultiplier();
         void decreaseTimeMultiplier();
         void setTimeMultiplier(unsigned int multiplier);
@@ -91,10 +77,7 @@ class Simulation
         SimulationParams m_sim_parameters;
         KalmanFilter m_kalman_filter;
         Car m_car;
-        BeaconMap m_beacons;
         GyroSensor m_gyro_sensor;
-        GPSSensor m_gps_sensor;
-        LidarSensor m_lidar_sensor;
         AccelSensor m_accel_sensor;
         OdoSensor m_odo_sensor;
         FrontHeightSensor m_front_sensor;
@@ -112,16 +95,25 @@ class Simulation
 
         // double m_time_till_gps_measurement;
         // double m_time_till_lidar_measurement;
+
+
+
+
+
+
+
+
         double m_time_till_pitch_measurement;
 
-        std::vector<GPSMeasurement> m_gps_measurement_history;
-        std::vector<LidarMeasurement> m_lidar_measurement_history;
         std::vector<GyroMeasurement> m_gyro_measurement_history;
         std::vector<AccelMeasurement> m_accel_measurement_history;
         std::vector<OdoMeasurement> m_odo_measurement_history;
         std::vector<double> m_pitch_measurement_history;
-        std::vector<Vector2> m_vehicle_position_history;
-        std::vector<Vector2> m_filter_position_history;
+        std::vector<double> m_vehicle_pitch_history;
+        std::vector<double> m_filter_pitch_history;
+        std::vector<double> m_wheel_pitch_history;
+        std::vector<time_t> m_time_history;
+        // std::vector<Eigen::Vector2> m_filter_position_history;
 
         std::vector<double> m_filter_error_x_position_history;
         std::vector<double> m_filter_error_y_position_history;

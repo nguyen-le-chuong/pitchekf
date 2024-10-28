@@ -7,6 +7,7 @@ find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 set(SRC_CPP
     src/main.cpp
+    src/readData.cpp
     src/display.cpp
     src/beacons.cpp
     src/sensors.cpp
@@ -20,8 +21,6 @@ add_executable(${PROJECT_NAME}
         )
 
 target_link_libraries(${PROJECT_NAME}
-        SDL2
-        SDL2_ttf
         Eigen3::Eigen
         )
 

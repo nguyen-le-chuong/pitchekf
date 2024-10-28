@@ -225,6 +225,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/readData.o: src/readData.cpp.o
+.PHONY : src/readData.o
+
+# target to build an object file
+src/readData.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o
+.PHONY : src/readData.cpp.o
+
+src/readData.i: src/readData.cpp.i
+.PHONY : src/readData.i
+
+# target to preprocess a source file
+src/readData.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.i
+.PHONY : src/readData.cpp.i
+
+src/readData.s: src/readData.cpp.s
+.PHONY : src/readData.s
+
+# target to generate assembly for a file
+src/readData.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.s
+.PHONY : src/readData.cpp.s
+
 src/sensors.o: src/sensors.cpp.o
 .PHONY : src/sensors.o
 
@@ -318,6 +342,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/readData.o"
+	@echo "... src/readData.i"
+	@echo "... src/readData.s"
 	@echo "... src/sensors.o"
 	@echo "... src/sensors.i"
 	@echo "... src/sensors.s"
