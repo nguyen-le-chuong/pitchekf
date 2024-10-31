@@ -2,9 +2,9 @@
 #define INCLUDE_AKFSFSIM_UTILS_H
 
 #include <vector>
-#include "display.h"
 #include <Eigen/Dense>
 #include <Eigen/SVD>
+#include <iostream>
 #include <Eigen/Core>
 double wrapAngle(double angle);
 double calculateMean(const std::vector<double>& dataset);

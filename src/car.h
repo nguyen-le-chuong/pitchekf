@@ -42,33 +42,13 @@ class BicycleMotion
 
         void update(double h_rear, double h_front)
         {
-            // double cosPsi = cos(m_current_state.psi);
-            // double sinPsi = sin(m_current_state.psi);
-            // double x = m_current_state.x + m_current_state.V * cosPsi * dt;
-            // double y = m_current_state.y + m_current_state.V * sinPsi * dt;
 
-            // double accel = m_velocity_command - m_current_state.V;
-            // if (accel > m_max_acceleration) {accel = m_max_acceleration;}
-            // if (accel < -m_max_acceleration) {accel = -m_max_acceleration;}
-
-            // double steer = m_steering_command;
-            // if (steer > m_max_steering) {steer = m_max_steering;}
-            // if (steer < -m_max_steering) {steer = -m_max_steering;}
-
-            // double vel = m_current_state.V + accel * dt;
-            // if (vel > m_max_velocity) {vel = m_max_velocity;}
-            // if (vel < -m_max_velocity) {vel = -m_max_velocity;}
-
-            // double psi_dot = m_current_state.V*steer/m_wheel_base;
-            // double psi = wrapAngle(m_current_state.psi + psi_dot* dt);
-            // m_current_state = VehicleState(x,y,psi,vel,psi_dot,steer);
             double delta_h = abs(h_front - h_rear);
             double pitch = atan2(delta_h, m_wheel_base);
             m_current_state = WheelState(h_rear, h_front, pitch);
         }
 
-        // void setSteeringCmd(double steer){m_steering_command = steer;}
-        // void setVelocityCmd(double accel){m_velocity_command = accel;}
+
         WheelState getWheelState() const {return m_current_state;}
 
     private:
@@ -110,36 +90,12 @@ class Car
             // m_current_command = nullptr;
         }
 
-        // void addVehicleCommand(MotionCommandBase* cmd)
-        // {
-        //     if (cmd != nullptr){m_vehicle_commands.push(cmd);}
-        // }
+
 
         WheelState getWheelState() const {return m_vehicle_model.getWheelState();}
 
         bool update(double h_front, double h_rear)
         {
-            // Update Command
-            // if(m_current_command == nullptr && !m_vehicle_commands.empty())
-            // {
-            //     m_current_command = m_vehicle_commands.front();
-            //     m_vehicle_commands.pop();
-            //     m_current_command->startCommand(time, m_vehicle_model.getVehicleState());
-            // }
-
-            // Run Command
-            // if (m_current_command != nullptr)
-            // {
-            //     bool cmd_complete = m_current_command->update(time, dt, m_vehicle_model.getVehicleState());
-            //     m_vehicle_model.setSteeringCmd(m_current_command->getSteeringCommand());
-            //     m_vehicle_model.setVelocityCmd(m_current_command->getVelocityCommand());
-            //     if(cmd_complete){m_current_command = nullptr;}
-            // }
-            // else
-            // {
-            //     m_vehicle_model.setSteeringCmd(0.0);
-            //     m_vehicle_model.setVelocityCmd(0.0);
-            // }
 
             // Update Vehicle
             m_vehicle_model.update(h_rear, h_front);

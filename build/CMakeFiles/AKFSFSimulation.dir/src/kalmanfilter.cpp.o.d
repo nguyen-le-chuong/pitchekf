@@ -380,22 +380,10 @@ CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o: \
  /usr/include/c++/11/deque /usr/include/c++/11/bits/stl_deque.h \
  /usr/include/c++/11/bits/deque.tcc /usr/include/c++/11/bits/stl_queue.h \
  /home/chuongnl1/project/pitchekf/src/utils.h \
- /home/chuongnl1/project/pitchekf/src/display.h \
- /usr/include/c++/11/memory \
- /usr/include/c++/11/bits/stl_raw_storage_iter.h \
- /usr/include/c++/11/bits/align.h /usr/include/c++/11/bit \
- /usr/include/c++/11/bits/unique_ptr.h \
- /usr/include/c++/11/bits/shared_ptr.h \
- /usr/include/c++/11/bits/shared_ptr_base.h \
- /usr/include/c++/11/bits/allocated_ptr.h \
- /usr/include/c++/11/ext/aligned_buffer.h \
- /usr/include/c++/11/ext/concurrence.h \
- /usr/include/c++/11/bits/shared_ptr_atomic.h \
- /usr/include/c++/11/backward/auto_ptr.h /usr/include/c++/11/iostream \
- /usr/include/eigen3/Eigen/SVD /usr/include/eigen3/Eigen/Core \
+ /usr/include/eigen3/Eigen/SVD /usr/include/c++/11/iostream \
+ /usr/include/eigen3/Eigen/Core \
  /home/chuongnl1/project/pitchekf/src/sensors.h \
  /usr/include/c++/11/random /usr/include/c++/11/bits/random.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/opt_random.h \
  /usr/include/c++/11/bits/random.tcc /usr/include/c++/11/numeric \
- /usr/include/c++/11/bits/stl_numeric.h \
- /home/chuongnl1/project/pitchekf/src/beacons.h
+ /usr/include/c++/11/bits/stl_numeric.h

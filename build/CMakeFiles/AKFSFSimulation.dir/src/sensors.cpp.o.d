@@ -383,17 +383,5 @@ CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o: \
  /usr/include/eigen3/Eigen/src/Eigenvalues/RealQZ.h \
  /usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
  /usr/include/eigen3/Eigen/SVD /usr/include/eigen3/Eigen/Core \
- /home/chuongnl1/project/pitchekf/src/beacons.h \
  /home/chuongnl1/project/pitchekf/src/utils.h \
- /home/chuongnl1/project/pitchekf/src/display.h \
- /usr/include/c++/11/memory \
- /usr/include/c++/11/bits/stl_raw_storage_iter.h \
- /usr/include/c++/11/bits/align.h /usr/include/c++/11/bit \
- /usr/include/c++/11/bits/unique_ptr.h \
- /usr/include/c++/11/bits/shared_ptr.h \
- /usr/include/c++/11/bits/shared_ptr_base.h \
- /usr/include/c++/11/bits/allocated_ptr.h \
- /usr/include/c++/11/ext/aligned_buffer.h \
- /usr/include/c++/11/ext/concurrence.h \
- /usr/include/c++/11/bits/shared_ptr_atomic.h \
- /usr/include/c++/11/backward/auto_ptr.h /usr/include/c++/11/iostream
+ /usr/include/c++/11/iostream

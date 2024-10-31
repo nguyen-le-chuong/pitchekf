@@ -129,54 +129,6 @@ AKFSFSimulation/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/build
 .PHONY : AKFSFSimulation/fast
 
-src/beacons.o: src/beacons.cpp.o
-.PHONY : src/beacons.o
-
-# target to build an object file
-src/beacons.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o
-.PHONY : src/beacons.cpp.o
-
-src/beacons.i: src/beacons.cpp.i
-.PHONY : src/beacons.i
-
-# target to preprocess a source file
-src/beacons.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.i
-.PHONY : src/beacons.cpp.i
-
-src/beacons.s: src/beacons.cpp.s
-.PHONY : src/beacons.s
-
-# target to generate assembly for a file
-src/beacons.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.s
-.PHONY : src/beacons.cpp.s
-
-src/display.o: src/display.cpp.o
-.PHONY : src/display.o
-
-# target to build an object file
-src/display.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o
-.PHONY : src/display.cpp.o
-
-src/display.i: src/display.cpp.i
-.PHONY : src/display.i
-
-# target to preprocess a source file
-src/display.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/display.cpp.i
-.PHONY : src/display.cpp.i
-
-src/display.s: src/display.cpp.s
-.PHONY : src/display.s
-
-# target to generate assembly for a file
-src/display.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/display.cpp.s
-.PHONY : src/display.cpp.s
-
 src/kalmanfilter.o: src/kalmanfilter.cpp.o
 .PHONY : src/kalmanfilter.o
 
@@ -330,12 +282,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... AKFSFSimulation"
-	@echo "... src/beacons.o"
-	@echo "... src/beacons.i"
-	@echo "... src/beacons.s"
-	@echo "... src/display.o"
-	@echo "... src/display.i"
-	@echo "... src/display.s"
 	@echo "... src/kalmanfilter.o"
 	@echo "... src/kalmanfilter.i"
 	@echo "... src/kalmanfilter.s"

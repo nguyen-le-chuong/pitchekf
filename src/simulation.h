@@ -3,11 +3,10 @@
 
 #include <memory>
 #include <vector>
-
+#include <fstream>
+#include <iostream>
 #include "kalmanfilter.h"
-#include "display.h"
 #include "car.h"
-#include "beacons.h"
 #include "sensors.h"
 
 
@@ -67,6 +66,7 @@ class Simulation
         void decreaseTimeMultiplier();
         void setTimeMultiplier(unsigned int multiplier);
         void increaseZoom();
+        void writeVectorsToCSV(const std::string& filename);
         void decreaseZoom();
         void togglePauseSimulation();
         bool isPaused();

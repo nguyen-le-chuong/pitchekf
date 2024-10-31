@@ -8,8 +8,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/chuongnl1/project/pitchekf/src/beacons.cpp" "CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o" "gcc" "CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o.d"
-  "/home/chuongnl1/project/pitchekf/src/display.cpp" "CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o" "gcc" "CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o.d"
   "/home/chuongnl1/project/pitchekf/src/kalmanfilter.cpp" "CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o" "gcc" "CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o.d"
   "/home/chuongnl1/project/pitchekf/src/main.cpp" "CMakeFiles/AKFSFSimulation.dir/src/main.cpp.o" "gcc" "CMakeFiles/AKFSFSimulation.dir/src/main.cpp.o.d"
   "/home/chuongnl1/project/pitchekf/src/readData.cpp" "CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o" "gcc" "CMakeFiles/AKFSFSimulation.dir/src/readData.cpp.o.d"

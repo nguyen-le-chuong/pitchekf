@@ -8,10 +8,8 @@ find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 set(SRC_CPP
     src/main.cpp
     src/readData.cpp
-    src/display.cpp
-    src/beacons.cpp
-    src/sensors.cpp
     src/simulation.cpp
+    src/sensors.cpp
     src/utils.cpp
     src/kalmanfilter.cpp
 )

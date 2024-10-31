@@ -1,10 +1,6 @@
 file(REMOVE_RECURSE
   "AKFSFSimulation"
   "AKFSFSimulation.pdb"
-  "CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o"
-  "CMakeFiles/AKFSFSimulation.dir/src/beacons.cpp.o.d"
-  "CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o"
-  "CMakeFiles/AKFSFSimulation.dir/src/display.cpp.o.d"
   "CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o"
   "CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o.d"
   "CMakeFiles/AKFSFSimulation.dir/src/main.cpp.o"

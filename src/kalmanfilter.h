@@ -6,7 +6,6 @@
 
 #include "car.h"
 #include "sensors.h"
-#include "beacons.h"
 
 using Eigen::VectorXd;
 using Eigen::Vector2d;
@@ -23,7 +22,13 @@ class KalmanFilterBase
 
         KalmanFilterBase():m_initialised(false){}
         virtual ~KalmanFilterBase(){}
-        void reset(){m_initialised = false;}
+        void reset(){
+            VectorXd initialState(3);
+            initialState << 0, 0, 1;
+            setState(initialState);
+            m_initialised = true;
+            MatrixXd cov = MatrixXd::Identity(3, 3) * 0.01;
+            setCovariance(cov);}
         bool isInitialised() const {return m_initialised;}
 
     protected:
@@ -48,12 +53,11 @@ class KalmanFilter : public KalmanFilterBase
 
         void predictionStep(double dt);
         void predictionStep(GyroMeasurement gyro, double dt);
-        // void handleLidarMeasurements(const std::vector<LidarMeasurement>& meas, const BeaconMap& map);
-        // void handleLidarMeasurement(LidarMeasurement meas, const BeaconMap& map);
-        // void handleGPSMeasurement(GPSMeasurement meas);
         void measurementStep1(AccelMeasurement accel, GyroMeasurement gyro, double v_t);
         void measurementStep2();
 
 };
+
+
 
 #endif  // INCLUDE_AKFSFSIM_KALMANFILTER_H
