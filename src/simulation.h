@@ -61,6 +61,7 @@ class Simulation
         void reset();
         void reset(SimulationParams sim_params);
         void update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double h_rear, double h_front, time_t& m_time, double& delta_t);
+        void updateRoadSlope(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double delta_t);
         // void render(Display& disp);
         void increaseTimeMultiplier();
         void decreaseTimeMultiplier();
@@ -76,6 +77,7 @@ class Simulation
 
         SimulationParams m_sim_parameters;
         KalmanFilter m_kalman_filter;
+        KalmanFilterRoadSlope m_road_slope;
         Car m_car;
         GyroSensor m_gyro_sensor;
         AccelSensor m_accel_sensor;
@@ -95,14 +97,6 @@ class Simulation
 
         // double m_time_till_gps_measurement;
         // double m_time_till_lidar_measurement;
-
-
-
-
-
-
-
-
         double m_time_till_pitch_measurement;
 
         std::vector<GyroMeasurement> m_gyro_measurement_history;
@@ -112,6 +106,7 @@ class Simulation
         std::vector<double> m_vehicle_pitch_history;
         std::vector<double> m_filter_pitch_history;
         std::vector<double> m_wheel_pitch_history;
+        std::vector<double> m_road_slope_history;
         std::vector<time_t> m_time_history;
         // std::vector<Eigen::Vector2> m_filter_position_history;
 

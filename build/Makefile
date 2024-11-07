@@ -129,6 +129,30 @@ AKFSFSimulation/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/build
 .PHONY : AKFSFSimulation/fast
 
+src/filterroad.o: src/filterroad.cpp.o
+.PHONY : src/filterroad.o
+
+# target to build an object file
+src/filterroad.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.o
+.PHONY : src/filterroad.cpp.o
+
+src/filterroad.i: src/filterroad.cpp.i
+.PHONY : src/filterroad.i
+
+# target to preprocess a source file
+src/filterroad.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.i
+.PHONY : src/filterroad.cpp.i
+
+src/filterroad.s: src/filterroad.cpp.s
+.PHONY : src/filterroad.s
+
+# target to generate assembly for a file
+src/filterroad.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AKFSFSimulation.dir/build.make CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.s
+.PHONY : src/filterroad.cpp.s
+
 src/kalmanfilter.o: src/kalmanfilter.cpp.o
 .PHONY : src/kalmanfilter.o
 
@@ -282,6 +306,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... AKFSFSimulation"
+	@echo "... src/filterroad.o"
+	@echo "... src/filterroad.i"
+	@echo "... src/filterroad.s"
 	@echo "... src/kalmanfilter.o"
 	@echo "... src/kalmanfilter.i"
 	@echo "... src/kalmanfilter.s"

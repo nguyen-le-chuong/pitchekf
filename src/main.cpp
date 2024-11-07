@@ -46,6 +46,7 @@ int main( int argc, char* args[] )
             delta_t = difftime(ts, prev_ts)/1000000.0;
         }
         mSimulation.update(acc, gyro, 5, h_rear, h_front, ts, delta_t);
+        mSimulation.updateRoadSlope(acc, gyro, 5, delta_t);
 
         prev_ts = ts;
 

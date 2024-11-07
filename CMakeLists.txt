@@ -12,6 +12,7 @@ set(SRC_CPP
     src/sensors.cpp
     src/utils.cpp
     src/kalmanfilter.cpp
+    src/filterroad.cpp
 )
 
 add_executable(${PROJECT_NAME}

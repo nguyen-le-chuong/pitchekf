@@ -11,16 +11,16 @@
 
 // -------------------------------------------------- //
 // YOU CAN USE AND MODIFY THESE CONSTANTS HERE
-constexpr double ACCEL_STD = 1.0;
-constexpr double GYRO_STD = 0.01/180.0 * M_PI;
-constexpr double INIT_VEL_STD = 10.0;
+constexpr double ACCEL_STD = 0.03;
+constexpr double GYRO_STD = 0.04;
+constexpr double INIT_VEL_STD = 0.01;
 constexpr double INIT_PSI_STD = 45.0/180.0 * M_PI;
 constexpr double GPS_POS_STD = 3.0;
 constexpr double LIDAR_RANGE_STD = 3.0;
 constexpr double LIDAR_THETA_STD = 0.02;
 // -------------------------------------------------- //
 MatrixXd R1 = Matrix2d::Identity() * GYRO_STD * INIT_VEL_STD + Matrix2d::Identity() * ACCEL_STD;
-MatrixXd R2 = MatrixXd::Constant(1, 1, 0.01);
+MatrixXd R2 = MatrixXd::Constant(1, 1, 5);
 
 void KalmanFilter::predictionStep(GyroMeasurement gyro, double dt)
 {
@@ -127,7 +127,7 @@ void KalmanFilter::measurementStep2()
         double R33 = state(2);
 
         MatrixXd H2(1, 3);
-        H2 << R31, 0, 0;
+        H2 << 1, 0, 0;
         double z2 = sqrt(1 - R32 * R32 - R33 * R33);
         
         VectorXd result = H2 * state; // Result will be a vector
@@ -165,8 +165,8 @@ VehicleState KalmanFilter::getVehicleState()
         VectorXd state = getState(); // STATE VECTOR [R31,R32,R33]
         double roll = std::atan2(state[1], state[2]);
         double pitch = std::atan2(-state[0], (state[1]/std::sin(roll)));
-        // pitch_degree = pitch*180.0 / 3.14;
-        return VehicleState(state[0], state[1], state[2], pitch, roll);
+        double pitch_degree = pitch*180.0 / 3.14;
+        return VehicleState(state[0], state[1], state[2], pitch_degree, roll);
     }
     return VehicleState();
 }

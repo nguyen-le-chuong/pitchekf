@@ -21,6 +21,13 @@ struct WheelState {
     WheelState(double setRear, double setFront, double setPitch): h_rear(setRear), h_front(setFront), pitch(setPitch) {}
 };
 
+struct SlopeState {
+    double deri_v, v, g_x;
+    double slope;
+    SlopeState(): deri_v(0.0), v(0.0), g_x(9.8), slope(0.0) {}
+    SlopeState(double setDeri_v, double setV, double setGx, double setSlope): deri_v(setDeri_v), v(setV), g_x(setGx), slope(setSlope) {}
+};
+
 class BicycleMotion
 {
     public:
@@ -55,6 +62,7 @@ class BicycleMotion
 
         WheelState m_current_state;
         WheelState m_initial_state;
+
 
         double m_steering_command;
         double m_velocity_command;

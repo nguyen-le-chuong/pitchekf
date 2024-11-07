@@ -153,6 +153,20 @@ CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.s"
 	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/chuongnl1/project/pitchekf/src/kalmanfilter.cpp -o CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.s
 
+CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.o: CMakeFiles/AKFSFSimulation.dir/flags.make
+CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.o: /home/chuongnl1/project/pitchekf/src/filterroad.cpp
+CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.o: CMakeFiles/AKFSFSimulation.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.o"
+	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.o -MF CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.o.d -o CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.o -c /home/chuongnl1/project/pitchekf/src/filterroad.cpp
+
+CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.i"
+	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/chuongnl1/project/pitchekf/src/filterroad.cpp > CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.i
+
+CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.s"
+	/usr/lib/ccache/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/chuongnl1/project/pitchekf/src/filterroad.cpp -o CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.s
+
 # Object files for target AKFSFSimulation
 AKFSFSimulation_OBJECTS = \
 "CMakeFiles/AKFSFSimulation.dir/src/main.cpp.o" \
@@ -160,7 +174,8 @@ AKFSFSimulation_OBJECTS = \
 "CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o" \
 "CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o" \
 "CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o" \
-"CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o"
+"CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o" \
+"CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.o"
 
 # External object files for target AKFSFSimulation
 AKFSFSimulation_EXTERNAL_OBJECTS =
@@ -171,9 +186,10 @@ AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/simulation.cpp.o
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/sensors.cpp.o
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/utils.cpp.o
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/kalmanfilter.cpp.o
+AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/src/filterroad.cpp.o
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/build.make
 AKFSFSimulation: CMakeFiles/AKFSFSimulation.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable AKFSFSimulation"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/chuongnl1/project/pitchekf/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable AKFSFSimulation"
 	/usr/local/bin/cmake -E copy_directory /home/chuongnl1/project/pitchekf/data/ /home/chuongnl1/project/pitchekf/build
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/AKFSFSimulation.dir/link.txt --verbose=$(VERBOSE)
 

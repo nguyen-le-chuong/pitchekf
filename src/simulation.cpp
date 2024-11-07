@@ -28,6 +28,7 @@ void Simulation::reset()
     m_is_paused = false;
     
     m_kalman_filter.reset();
+    m_road_slope.reset();
 
 
     m_gyro_sensor.reset();
@@ -65,7 +66,8 @@ void Simulation::writeVectorsToCSV(const std::string& filename) {
     
     std::vector<time_t> vec1 = m_time_history;
     std::vector<double> vec2 = m_filter_pitch_history;
-    std::vector<double> vec3 = m_wheel_pitch_history;
+    // std::vector<double> vec3 = m_wheel_pitch_history;
+    std::vector<double> vec3 = m_road_slope_history;
     
     std::ofstream file(filename);
     if (!file.is_open()) {
@@ -132,7 +134,6 @@ void Simulation::update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, d
             m_kalman_filter.measurementStep1(accel_meas, gyro_meas, v_meas.v);
             m_kalman_filter.measurementStep2();
 
-            // Save Filter History and Calculate Stats
             if (m_kalman_filter.isInitialised())
             {
                 WheelState wheel_state = m_car.getWheelState();
@@ -142,10 +143,44 @@ void Simulation::update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, d
                 m_wheel_pitch_history.push_back(wheel_state.pitch);
                 m_time_history.push_back(m_time);
             }
+            // Save Filter History and Calculate Stats
 
             // Update Time
             m_time += m_sim_parameters.time_step;
     }
+}
+
+void Simulation::updateRoadSlope(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double delta_t)
+{
+
+    if (m_is_running && !m_is_paused){
+        GyroMeasurement gyro_meas;  // Khai báo biến gyro_meas
+        AccelMeasurement accel_meas; // Khai báo biến accel_meas
+        OdoMeasurement v_meas;  // Khai báo biến v_meas
+
+        if (m_sim_parameters.accel_enabled)
+        {
+            accel_meas = m_accel_sensor.generateAccelMeasurement(acc);
+            // m_time_till_accel_measurement += 1.0/m_sim_parameters.accel_update_rate;
+        }
+        if (m_sim_parameters.gyro_enabled) 
+        {
+            gyro_meas = m_gyro_sensor.generateGyroMeasurement(gyro);
+            // m_time_till_gyro_measurement 
+        }
+        if (m_sim_parameters.odo_enabled)
+        {
+            v_meas = m_odo_sensor.generateOdoMeasurement(odo);
+            // m_time_till_odo_measurement += 1.0/m_sim_parameters.odo_update_rate;
+        }
+        m_road_slope.predictionStep(delta_t);
+        m_road_slope.measurementStep(accel_meas, gyro_meas, v_meas.v, delta_t);
+        if (m_road_slope.isInitialised()){
+            SlopeState slope_state = m_road_slope.getVehicleState();
+            m_road_slope_history.push_back(slope_state.slope);
+        }
+    }
+
 }
         
 
