@@ -15,7 +15,7 @@ Simulation::Simulation()
     m_time_till_odo_measurement(0.0)
 {}
 
-void Simulation::reset()
+void Simulation::reset(VectorXd RotationState, VectorXd SlopeState, MatrixXd cov)
 {
     // Reset Simulation
     m_time = 0.0;
@@ -27,8 +27,8 @@ void Simulation::reset()
     m_is_running = true;
     m_is_paused = false;
     
-    m_kalman_filter.reset();
-    m_road_slope.reset();
+    m_kalman_filter.reset(RotationState, cov);
+    m_road_slope.reset(SlopeState);
 
 
     m_gyro_sensor.reset();
@@ -60,11 +60,38 @@ void Simulation::reset()
     std::cout << "Simulation: Reset" << std::endl;
 }
 
+VectorXd Simulation::returnVehicleState()
+{
+    VehicleState filter_state = m_kalman_filter.getVehicleState();
+    double R31 = filter_state.R31;
+    double R32 = filter_state.R32;
+    double R33 = filter_state.R33;
 
+    VectorXd state(3);
+    state << R31, R32, R33;
+    return state;
+}
+
+MatrixXd Simulation::returnVehicleCovarience()
+{
+    return m_kalman_filter.getVehicleCovariance();
+}
+
+VectorXd Simulation::returnSlopeState()
+{
+    SlopeState filter_state = m_road_slope.getVehicleState();
+    double deri_v = filter_state.deri_v;
+    double v = filter_state.v;
+    double g_x = filter_state.g_x;
+
+    VectorXd state(3);
+    state << deri_v, v, g_x;
+    return state;
+}
 
 void Simulation::writeVectorsToCSV(const std::string& filename) {
     
-    std::vector<time_t> vec1 = m_time_history;
+    std::vector<double> vec1 = m_time_history;
     std::vector<double> vec2 = m_filter_pitch_history;
     // std::vector<double> vec3 = m_wheel_pitch_history;
     std::vector<double> vec3 = m_road_slope_history;
@@ -94,7 +121,7 @@ void Simulation::writeVectorsToCSV(const std::string& filename) {
 
 
 
-void Simulation::update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double h_rear, double h_front, time_t& m_time, double& delta_t)
+void Simulation::update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double h_rear, double h_front, double m_time, double delta_t, Eigen::Vector2d& alpha)
 {
     m_sim_parameters.time_step = delta_t;
     if (m_is_running && !m_is_paused)
@@ -102,6 +129,15 @@ void Simulation::update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, d
             // Update Motion (for Front and Rear ) 
             m_car.update(h_rear, h_front);
             m_vehicle_pitch_history.push_back(m_car.getWheelState().pitch);
+            if (m_kalman_filter.isInitialised())
+            {
+                WheelState wheel_state = m_car.getWheelState();
+                VehicleState filter_state = m_kalman_filter.getVehicleState();
+                m_filter_error_pitch_history.push_back(filter_state.pitch - wheel_state.pitch);
+                m_filter_pitch_history.push_back(filter_state.pitch);
+                m_wheel_pitch_history.push_back(wheel_state.pitch);
+                m_time_history.push_back(m_time);
+            }
 
             // Gyro Measurement / Prediction Step
             GyroMeasurement gyro_meas;  // Khai báo biến gyro_meas
@@ -131,18 +167,10 @@ void Simulation::update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, d
                     m_time_till_odo_measurement += 1.0/m_sim_parameters.odo_update_rate;
 
             }
-            m_kalman_filter.measurementStep1(accel_meas, gyro_meas, v_meas.v);
+            m_kalman_filter.measurementStep1(accel_meas, gyro_meas, v_meas.v, alpha);
             m_kalman_filter.measurementStep2();
+            alpha = m_kalman_filter.calculateExAccel(accel_meas, gyro_meas, v_meas.v);
 
-            if (m_kalman_filter.isInitialised())
-            {
-                WheelState wheel_state = m_car.getWheelState();
-                VehicleState filter_state = m_kalman_filter.getVehicleState();
-                m_filter_error_pitch_history.push_back(filter_state.pitch - wheel_state.pitch);
-                m_filter_pitch_history.push_back(filter_state.pitch);
-                m_wheel_pitch_history.push_back(wheel_state.pitch);
-                m_time_history.push_back(m_time);
-            }
             // Save Filter History and Calculate Stats
 
             // Update Time
@@ -184,7 +212,7 @@ void Simulation::updateRoadSlope(Eigen::VectorXd acc, Eigen::VectorXd gyro, doub
 }
         
 
-void Simulation::reset(SimulationParams sim_params){m_sim_parameters = sim_params; reset();}
+void Simulation::reset(SimulationParams sim_params, VectorXd RotationState, VectorXd SlopeState, MatrixXd cov){m_sim_parameters = sim_params; reset(RotationState, SlopeState, cov);}
 void Simulation::increaseTimeMultiplier()
 {
     m_time_multiplier++;

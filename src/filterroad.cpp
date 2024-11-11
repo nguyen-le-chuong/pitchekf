@@ -11,13 +11,13 @@
 
 // -------------------------------------------------- //
 // YOU CAN USE AND MODIFY THESE CONSTANTS HERE
-constexpr double ACCEL_STD = 0.05;
-constexpr double GYRO_STD = 0.01;
-constexpr double INIT_VEL_STD = 1;
-constexpr double INIT_PSI_STD = 45.0/180.0 * M_PI;
-constexpr double GPS_POS_STD = 3.0;
-constexpr double LIDAR_RANGE_STD = 3.0;
-constexpr double LIDAR_THETA_STD = 0.02;
+double ACCEL_STD = 0.05;
+double GYRO_STD = 0.01;
+double INIT_VEL_STD = 1;
+double INIT_PSI_STD = 45.0/180.0 * M_PI;
+double GPS_POS_STD = 3.0;
+double LIDAR_RANGE_STD = 3.0;
+double LIDAR_THETA_STD = 0.02;
 // -------------------------------------------------- //
 MatrixXd R = Matrix2d::Identity() * GYRO_STD * INIT_VEL_STD + Matrix2d::Identity() * ACCEL_STD;
 // MatrixXd R2 = MatrixXd::Constant(1, 1, 0.01);

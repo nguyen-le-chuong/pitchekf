@@ -22,33 +22,63 @@ int main( int argc, char* args[] )
 {
     // Display mDisplay;
     Simulation mSimulation;
-    time_t ts;
+    double ts;
     Eigen::VectorXd acc, gyro;
     double odo;
     double h_rear, h_front;
     // Read Data
-    std::string accelerometer_file = "/home/chuongnl1/project/EKF/record_data/stable_files/files/accelerometer.csv";
-    std::string gyroscope_file = "/home/chuongnl1/project/EKF/record_data/stable_files/files/gyroscope.csv";
+    std::string accelerometer_file = "/home/chuongnl1/project/pitchekf/data/accel.csv";
+    std::string gyroscope_file = "/home/chuongnl1/project/pitchekf/data/gyro.csv";
 
-    std::map<time_t, std::vector<double>> dataA = read_data(accelerometer_file);
-    std::map<time_t, std::vector<double>> dataG = read_data(gyroscope_file);
+    std::map<double, std::vector<double>> dataA = read_data(accelerometer_file);
+    std::map<double, std::vector<double>> dataG = read_data(gyroscope_file);
     
     // Merge the data based on common timestamps
-    std::vector<std::tuple<time_t, Eigen::VectorXd, Eigen::VectorXd>> merged_data = merge_data(dataA, dataG);
+    std::vector<std::tuple<double, Eigen::VectorXd, Eigen::VectorXd>> merged_data = merge_data(dataA, dataG);
 
-    mSimulation.reset(loadSimulation4Parameters());
-    time_t prev_ts = 0;
-    double delta_t = 0;
+    VectorXd RotationState(3);
+    VectorXd SlopeState(3);
+
+    RotationState << 0, 0, 1;
+    SlopeState << 0, 0, 9.8;
+    MatrixXd cov = MatrixXd::Identity(3, 3) * 0.01;
+    
+
+    mSimulation.reset(loadSimulation4Parameters(), RotationState, SlopeState, cov);
+    double prev_ts = 0.0;
+    double dt = 0.0;
+    Eigen::Vector2d alpha;
+    alpha << 0.01, 0.01;
+    bool reset = false;
+    double flag_ts = 0.0;
     for (const auto &entry : merged_data) {
-        time_t ts;
+        double ts;
         std::tie(ts, acc, gyro) = entry;
+        // if (reset) {
+        //     RotationState = mSimulation.returnVehicleState();
+        //     SlopeState = mSimulation.returnSlopeState();
+        //     // cov = mSimulation.returnVehicleCovarience();
+        //     mSimulation.reset(loadSimulation4Parameters(), RotationState, SlopeState, cov);
+        //     reset = false;
+        // }
         if (prev_ts != 0) {
-            delta_t = difftime(ts, prev_ts)/1000000.0;
+        // std::cout << "prev" << prev_ts << std::endl;
+        // std::cout << "ts" << ts << std::endl;
+            dt = (ts - prev_ts);
+            // std::cout << dt << std::endl;
         }
-        mSimulation.update(acc, gyro, 5, h_rear, h_front, ts, delta_t);
-        mSimulation.updateRoadSlope(acc, gyro, 5, delta_t);
-
+        // std::cout << alpha << std::endl;
+        mSimulation.update(acc, gyro, 0, h_rear, h_front, ts, dt, alpha);
+        mSimulation.updateRoadSlope(acc, gyro, 0, dt);
+        // if (ts - flag_ts >= 5) {
+        //     reset = true;
+        //     // std::cout << "al";
+        //     flag_ts = ts;
+        // }
         prev_ts = ts;
+        // if (ts > 5) {
+        //     break;
+        // }
 
     }
     mSimulation.writeVectorsToCSV("output.csv");

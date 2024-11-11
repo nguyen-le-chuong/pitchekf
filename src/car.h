@@ -3,8 +3,16 @@
 
 #include <queue>
 #include <cmath>
+#include <Eigen/Dense>
 #include "utils.h"
+using Eigen::VectorXd;
+using Eigen::Vector2d;
+using Eigen::Vector4d;
 
+using Eigen::MatrixXd;
+using Eigen::Matrix2d;
+using Eigen::Matrix4d;
+using Eigen::Matrix3d;
 struct VehicleState
 {
     double R31, R32, R33;

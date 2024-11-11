@@ -58,10 +58,14 @@ class Simulation
     public:
 
         Simulation();
-        void reset();
-        void reset(SimulationParams sim_params);
-        void update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double h_rear, double h_front, time_t& m_time, double& delta_t);
+        void reset(VectorXd RotationState, VectorXd SlopeState, MatrixXd cov);
+        void reset(SimulationParams sim_params, VectorXd RotationState, VectorXd SlopeState, MatrixXd cov);
+        void update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double h_rear, double h_front, double m_time, double delta_t, Eigen::Vector2d& alpha);
         void updateRoadSlope(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double delta_t);
+        VectorXd returnVehicleState();
+        MatrixXd returnVehicleCovarience();
+        VectorXd returnSlopeState();
+        MatrixXd returnSlopeCovarience();
         // void render(Display& disp);
         void increaseTimeMultiplier();
         void decreaseTimeMultiplier();
@@ -107,7 +111,7 @@ class Simulation
         std::vector<double> m_filter_pitch_history;
         std::vector<double> m_wheel_pitch_history;
         std::vector<double> m_road_slope_history;
-        std::vector<time_t> m_time_history;
+        std::vector<double> m_time_history;
         // std::vector<Eigen::Vector2> m_filter_position_history;
 
         std::vector<double> m_filter_error_x_position_history;

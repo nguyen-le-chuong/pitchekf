@@ -11,17 +11,16 @@
 
 // -------------------------------------------------- //
 // YOU CAN USE AND MODIFY THESE CONSTANTS HERE
-constexpr double ACCEL_STD = 1.0;
-constexpr double GYRO_STD = 0.01;
-constexpr double INIT_VEL_STD = 0.01;
-constexpr double INIT_PSI_STD = 45.0/180.0 * M_PI;
-constexpr double GPS_POS_STD = 3.0;
-constexpr double LIDAR_RANGE_STD = 3.0;
-constexpr double LIDAR_THETA_STD = 0.02;
+constexpr double ACCEL_STD = 0.29;
+constexpr double GYRO_STD = 0.001;
+constexpr double INIT_VEL_STD = 0.0;
+
+constexpr double c_a = 0.7;
 // -------------------------------------------------- //
 MatrixXd R1 = Matrix2d::Identity() * GYRO_STD * INIT_VEL_STD + Matrix2d::Identity() * ACCEL_STD;
 // MatrixXd R1 = Matrix2d::Constant(2, 2, GYRO_STD* INIT_VEL_STD + ACCEL_STD);
-MatrixXd R2 = MatrixXd::Constant(1, 1, 4);
+MatrixXd R2 = MatrixXd::Constant(1, 1, 0.01);
+MatrixXd nG = MatrixXd::Constant(3, 1, 0.001);
 
 void KalmanFilter::predictionStep(GyroMeasurement gyro, double dt)
 {
@@ -52,7 +51,7 @@ void KalmanFilter::predictionStep(GyroMeasurement gyro, double dt)
         Matrix3d F = Matrix3d::Identity() + omega_skew * dt;  // F matrix
 
         // Predict the new state
-        state = F * state;
+        state = F * state + dt * x_skew * nG;
 
         Matrix3d sigma_G = GYRO_STD * Matrix3d::Identity();
         Matrix3d Q = dt * dt * x_skew * sigma_G * x_skew;
@@ -69,7 +68,7 @@ void KalmanFilter::predictionStep(GyroMeasurement gyro, double dt)
 
 
 
-void KalmanFilter::measurementStep1(AccelMeasurement accel, GyroMeasurement gyro, double vt)
+void KalmanFilter::measurementStep1(AccelMeasurement accel, GyroMeasurement gyro, double vt, Vector2d alpha)
 {
     if (isInitialised())
     {
@@ -91,8 +90,8 @@ void KalmanFilter::measurementStep1(AccelMeasurement accel, GyroMeasurement gyro
         double ay_centripetal = vt * wz;       
         double az_centripetal = -vt * wx;      
 
-        double ay_corrected = ay - ay_centripetal;
-        double az_corrected = az - az_centripetal;
+        double ay_corrected = ay - ay_centripetal - c_a * alpha(0);
+        double az_corrected = az - az_centripetal - c_a * alpha(1);
 
         MatrixXd H1(2, 3);
         H1 << 0, 9.81, 0,
@@ -103,7 +102,7 @@ void KalmanFilter::measurementStep1(AccelMeasurement accel, GyroMeasurement gyro
 
         VectorXd y = z1 - H1 * state;
 
-        MatrixXd S1 = H1 * cov * H1.transpose() + R1;
+        MatrixXd S1 = H1 * cov * H1.transpose() + R1 ;//+ 1e-9 * MatrixXd::Identity(H1.rows(), H1.rows());;
         MatrixXd K1 = cov * H1.transpose() * S1.inverse();
 
         state = state + K1 * y;
@@ -129,14 +128,16 @@ void KalmanFilter::measurementStep2()
 
         MatrixXd H2(1, 3);
         H2 << 1, 0, 0;
-        double z2 = sqrt(1 - R32 * R32 - R33 * R33);
+        double z2_value = 1 - R32 * R32 - R33 * R33;
+        double z2 = z2_value > 0 ? sqrt(z2_value) : 0; // or handle differently if negative
+
         
         VectorXd result = H2 * state; // Result will be a vector
         double y = z2 - result(0); // Use the first element (or any other as needed)
 
         //double y = z2 - H2 * state;
 
-        MatrixXd S2 = H2 * cov * H2.transpose() + R2;
+        MatrixXd S2 = H2 * cov * H2.transpose() + R2 ;//+ 1e-9 * MatrixXd::Identity(H2.rows(), H2.rows());;
         MatrixXd K2 = cov * H2.transpose() * S2.inverse();
 
         state = state + K2 * y;
@@ -149,6 +150,33 @@ void KalmanFilter::measurementStep2()
     }
 }
 
+Vector2d KalmanFilter::calculateExAccel(AccelMeasurement accel, GyroMeasurement gyro, double v_t)
+{
+    VectorXd state = getState();
+    double ax = accel.ax;
+    double ay = accel.ay;          
+    double az = accel.az;
+
+    double R31 = state(0); 
+    double R32 = state(1); 
+    double R33 = state(2); 
+
+    double at_x = ax - 9.81 * R31;
+    double at_y = ay - 9.81 * R32;
+    double at_z = az - 9.81 * R33;
+
+    double alpha_x = at_x - v_t*gyro.wx;
+    double alpha_y = at_y - v_t*gyro.wz;
+    double alpha_z = at_z + v_t*gyro.wx;
+    Vector2d alpha;
+    alpha << alpha_y, alpha_z;
+    return alpha;
+}
+
+MatrixXd KalmanFilter::getVehicleCovariance()
+{
+    return getCovariance();
+}
 
 
 Matrix2d KalmanFilter::getVehicleStatePositionCovariance()
@@ -164,9 +192,12 @@ VehicleState KalmanFilter::getVehicleState()
     if (isInitialised())
     {
         VectorXd state = getState(); // STATE VECTOR [R31,R32,R33]
+        // if (!std::isnan(state[0])){
+            // std::cout << state[0] << " " << state[1] << " " << state[2] << std::endl;
+        // }
         double roll = std::atan2(state[1], state[2]);
         double pitch = std::atan2(-state[0], (state[1]/std::sin(roll)));
-        double pitch_degree = pitch*180.0 / 3.14;
+        double pitch_degree = - pitch*180.0 / 3.14;
         return VehicleState(state[0], state[1], state[2], pitch_degree, roll);
     }
     return VehicleState();

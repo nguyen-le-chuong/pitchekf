@@ -2,19 +2,10 @@
 #define INCLUDE_AKFSFSIM_KALMANFILTER_H
 
 #include <vector>
-#include <Eigen/Dense>
 
 #include "car.h"
 #include "sensors.h"
 
-using Eigen::VectorXd;
-using Eigen::Vector2d;
-using Eigen::Vector4d;
-
-using Eigen::MatrixXd;
-using Eigen::Matrix2d;
-using Eigen::Matrix4d;
-using Eigen::Matrix3d;
 
 class KalmanFilterBase
 {
@@ -22,12 +13,12 @@ class KalmanFilterBase
 
         KalmanFilterBase():m_initialised(false){}
         virtual ~KalmanFilterBase(){}
-        void reset(){
-            VectorXd initialState(3);
-            initialState << 0, 0, 1;
-            setState(initialState);
+        void reset(VectorXd RotationState, MatrixXd cov){
+            // VectorXd initialState(3);
+            // initialState << a, b, c;
+            setState(RotationState);
             m_initialised = true;
-            MatrixXd cov = MatrixXd::Identity(3, 3) * 0.01;
+            // MatrixXd cov = MatrixXd::Identity(3, 3) * 0.01;
             setCovariance(cov);}
         bool isInitialised() const {return m_initialised;}
 
@@ -50,10 +41,10 @@ class KalmanFilterRoadSlopeBase
 
         KalmanFilterRoadSlopeBase():m_initialised(false){}
         virtual ~KalmanFilterRoadSlopeBase(){}
-        void reset(){
-            VectorXd initialState(3);
-            initialState << 0, 0, 9.8;
-            setState(initialState);
+        void reset(VectorXd SlopeState){
+            // VectorXd initialState(3);
+            // initialState << 0, 0, 9.8;
+            setState(SlopeState);
             m_initialised = true;
             MatrixXd cov = MatrixXd::Identity(3, 3) * 0.01;
             setCovariance(cov);}
@@ -77,11 +68,13 @@ class KalmanFilter : public KalmanFilterBase
     public:
 
         VehicleState getVehicleState();
+        MatrixXd getVehicleCovariance();
         Matrix2d getVehicleStatePositionCovariance();
+        Vector2d calculateExAccel(AccelMeasurement accel, GyroMeasurement gyro, double v_t);
 
         void predictionStep(double dt);
         void predictionStep(GyroMeasurement gyro, double dt);
-        void measurementStep1(AccelMeasurement accel, GyroMeasurement gyro, double v_t);
+        void measurementStep1(AccelMeasurement accel, GyroMeasurement gyro, double v_t, Vector2d alpha);
         void measurementStep2();
 
 };
