@@ -12,14 +12,14 @@
 // -------------------------------------------------- //
 // YOU CAN USE AND MODIFY THESE CONSTANTS HERE
 double ACCEL_STD = 0.05;
-double GYRO_STD = 0.01;
+double GYRO_STD = 0.001;
 double INIT_VEL_STD = 1;
 double INIT_PSI_STD = 45.0/180.0 * M_PI;
 double GPS_POS_STD = 3.0;
 double LIDAR_RANGE_STD = 3.0;
 double LIDAR_THETA_STD = 0.02;
 // -------------------------------------------------- //
-MatrixXd R = Matrix2d::Identity() * GYRO_STD * INIT_VEL_STD + Matrix2d::Identity() * ACCEL_STD;
+// MatrixXd R = Matrix2d::Identity() * GYRO_STD * INIT_VEL_STD + Matrix2d::Identity() * ACCEL_STD;
 // MatrixXd R2 = MatrixXd::Constant(1, 1, 0.01);
 
 
@@ -34,9 +34,9 @@ void KalmanFilterRoadSlope::predictionStep(double dt)
         MatrixXd F_noise(3, 2);
         MatrixXd W(2, 1);
 
-        Q << 0.01, 0, 0,
-            0, 0.01, 0,
-            0, 0, 0.01;
+        Q << ACCEL_STD, 0, 0,
+            0, INIT_VEL_STD, 0,
+            0, 0, GYRO_STD;
         
         F << 1, 0, 0,
             dt, 1, 0,
@@ -64,7 +64,7 @@ void KalmanFilterRoadSlope::measurementStep(AccelMeasurement accel, GyroMeasurem
         MatrixXd cov = getCovariance();
 
         double w_x = gyro.wx;
-        double a_long = accel.ax - vt*w_x;
+        double a_long = accel.ax ;
         MatrixXd z(2, 1);
         MatrixXd H(2, 3);
 
@@ -74,7 +74,9 @@ void KalmanFilterRoadSlope::measurementStep(AccelMeasurement accel, GyroMeasurem
             1, 0, 1;
 
         VectorXd y = z - H * state;
-        
+        Matrix2d R;
+        R << ACCEL_STD, 0,
+            0, INIT_VEL_STD;
         MatrixXd S = H * cov * H.transpose() + R;
         MatrixXd K = cov * H.transpose() * S.inverse();
 
@@ -100,11 +102,11 @@ SlopeState KalmanFilterRoadSlope::getVehicleState()
 {
     if (isInitialised())
     {   
-
-        VectorXd state = getState(); // 
-        double slope = asin(state[2]/9.8);
-        double slope_degree = slope*180.0 / 3.14;
-        return SlopeState(state[0], state[1], state[2], slope);
+        VectorXd state = getState(); //
+        // std::cout << state[0] << " " <<  state[1] << " " << state[2] << std::endl; 
+        double slope = asin(state[2]/9.81);
+        double slope_degree = -slope*180.0 / 3.14;
+        return SlopeState(state[0], state[1], state[2], slope_degree);
     }
     return SlopeState();
 }

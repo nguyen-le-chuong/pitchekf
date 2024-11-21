@@ -22,37 +22,46 @@ int main( int argc, char* args[] )
 {
     // Display mDisplay;
     Simulation mSimulation;
-    double ts;
+    time_t ts;
     Eigen::VectorXd acc, gyro;
     double odo;
     double h_rear, h_front;
     // Read Data
-    std::string accelerometer_file = "/home/chuongnl1/project/pitchekf/data/accel.csv";
-    std::string gyroscope_file = "/home/chuongnl1/project/pitchekf/data/gyro.csv";
+    std::string accelerometer_file = "/home/chuongnl1/project/pitchekf/build/accelerometer.csv";
+    std::string gyroscope_file = "/home/chuongnl1/project/pitchekf/data/gyroscope.csv";
 
-    std::map<double, std::vector<double>> dataA = read_data(accelerometer_file);
-    std::map<double, std::vector<double>> dataG = read_data(gyroscope_file);
+    std::map<time_t, std::vector<double>> dataA = read_dataTimeStamp(accelerometer_file);
+    std::map<time_t, std::vector<double>> dataG = read_dataTimeStamp(gyroscope_file);
     
     // Merge the data based on common timestamps
-    std::vector<std::tuple<double, Eigen::VectorXd, Eigen::VectorXd>> merged_data = merge_data(dataA, dataG);
+    std::vector<std::tuple<time_t, Eigen::VectorXd, Eigen::VectorXd>> merged_data = merge_dataTimeStamp(dataA, dataG);
 
     VectorXd RotationState(3);
     VectorXd SlopeState(3);
 
+    // RotationState << 0.1908, 0, 0.9816;
     RotationState << 0, 0, 1;
-    SlopeState << 0, 0, 9.8;
+    SlopeState << 0, 0, 0;
     MatrixXd cov = MatrixXd::Identity(3, 3) * 0.01;
     
 
     mSimulation.reset(loadSimulation4Parameters(), RotationState, SlopeState, cov);
-    double prev_ts = 0.0;
+    time_t prev_ts = 0;
     double dt = 0.0;
     Eigen::Vector2d alpha;
     alpha << 0.01, 0.01;
     bool reset = false;
     double flag_ts = 0.0;
+    int steps = 0;
     for (const auto &entry : merged_data) {
-        double ts;
+        time_t ts;
+        // std::cout << steps << std::endl;
+        steps =  steps + 1;
+        if (steps < 140)
+            continue;
+        if (steps>=500)
+            break;
+
         std::tie(ts, acc, gyro) = entry;
         // if (reset) {
         //     RotationState = mSimulation.returnVehicleState();
@@ -63,13 +72,15 @@ int main( int argc, char* args[] )
         // }
         if (prev_ts != 0) {
         // std::cout << "prev" << prev_ts << std::endl;
-        // std::cout << "ts" << ts << std::endl;
-            dt = (ts - prev_ts);
-            // std::cout << dt << std::endl;
+            dt = static_cast<double>(ts - prev_ts)/1000;
+        // std::cout << "ts" << dt << std::endl;
+        } else {
+            prev_ts = ts;
+            continue;
         }
         // std::cout << alpha << std::endl;
-        mSimulation.update(acc, gyro, 0, h_rear, h_front, ts, dt, alpha);
-        mSimulation.updateRoadSlope(acc, gyro, 0, dt);
+        mSimulation.update(acc, gyro, 6, h_rear, h_front, ts, dt, alpha);
+        mSimulation.updateRoadSlope(acc, gyro, 6, dt);
         // if (ts - flag_ts >= 5) {
         //     reset = true;
         //     // std::cout << "al";
@@ -79,7 +90,6 @@ int main( int argc, char* args[] )
         // if (ts > 5) {
         //     break;
         // }
-
     }
     mSimulation.writeVectorsToCSV("output.csv");
 

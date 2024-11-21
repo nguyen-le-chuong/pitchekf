@@ -45,9 +45,9 @@ struct SimulationParams
     SimulationParams()
     :profile_name(""),
      time_step(0.1),end_time(120),
-     gyro_enabled(true), gyro_update_rate(10.0),gyro_noise_std(0.001), gyro_bias(0.0),
-     accel_enabled(true), accel_update_rate(10.0),accel_noise_std(0.001), accel_bias(0.0),
-     odo_enabled(true), odo_update_rate(10.0),odo_noise_std(0.001), odo_bias(0.0),
+     gyro_enabled(true), gyro_update_rate(10.0),gyro_noise_std(0.001), gyro_bias(0.001),
+     accel_enabled(true), accel_update_rate(10.0),accel_noise_std(0.001), accel_bias(0.001),
+     odo_enabled(true), odo_update_rate(10.0),odo_noise_std(0.001), odo_bias(0.001),
      car_initial_R31(0.0), car_initial_R32(0.0), car_initial_R33(1.0), car_initial_velocity(0.0)
     {}
 };
@@ -60,7 +60,7 @@ class Simulation
         Simulation();
         void reset(VectorXd RotationState, VectorXd SlopeState, MatrixXd cov);
         void reset(SimulationParams sim_params, VectorXd RotationState, VectorXd SlopeState, MatrixXd cov);
-        void update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double h_rear, double h_front, double m_time, double delta_t, Eigen::Vector2d& alpha);
+        void update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double h_rear, double h_front, time_t m_time, double delta_t, Eigen::Vector2d& alpha);
         void updateRoadSlope(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double delta_t);
         VectorXd returnVehicleState();
         MatrixXd returnVehicleCovarience();
@@ -111,7 +111,7 @@ class Simulation
         std::vector<double> m_filter_pitch_history;
         std::vector<double> m_wheel_pitch_history;
         std::vector<double> m_road_slope_history;
-        std::vector<double> m_time_history;
+        std::vector<time_t> m_time_history;
         // std::vector<Eigen::Vector2> m_filter_position_history;
 
         std::vector<double> m_filter_error_x_position_history;

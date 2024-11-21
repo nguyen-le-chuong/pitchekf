@@ -91,7 +91,7 @@ VectorXd Simulation::returnSlopeState()
 
 void Simulation::writeVectorsToCSV(const std::string& filename) {
     
-    std::vector<double> vec1 = m_time_history;
+    std::vector<time_t> vec1 = m_time_history;
     std::vector<double> vec2 = m_filter_pitch_history;
     // std::vector<double> vec3 = m_wheel_pitch_history;
     std::vector<double> vec3 = m_road_slope_history;
@@ -121,7 +121,7 @@ void Simulation::writeVectorsToCSV(const std::string& filename) {
 
 
 
-void Simulation::update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double h_rear, double h_front, double m_time, double delta_t, Eigen::Vector2d& alpha)
+void Simulation::update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, double h_rear, double h_front, time_t m_time, double delta_t, Eigen::Vector2d& alpha)
 {
     m_sim_parameters.time_step = delta_t;
     if (m_is_running && !m_is_paused)
@@ -174,7 +174,7 @@ void Simulation::update(Eigen::VectorXd acc, Eigen::VectorXd gyro, double odo, d
             // Save Filter History and Calculate Stats
 
             // Update Time
-            m_time += m_sim_parameters.time_step;
+            //m_time += m_sim_parameters.time_step;
     }
 }
 
