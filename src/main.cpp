@@ -55,7 +55,6 @@ int main( int argc, char* args[] )
     int steps = 0;
     for (const auto &entry : merged_data) {
         time_t ts;
-        // std::cout << steps << std::endl;
         steps =  steps + 1;
         if (steps < 140)
             continue;
@@ -71,25 +70,15 @@ int main( int argc, char* args[] )
         //     reset = false;
         // }
         if (prev_ts != 0) {
-        // std::cout << "prev" << prev_ts << std::endl;
             dt = static_cast<double>(ts - prev_ts)/1000;
-        // std::cout << "ts" << dt << std::endl;
         } else {
             prev_ts = ts;
             continue;
         }
-        // std::cout << alpha << std::endl;
         mSimulation.update(acc, gyro, 6, h_rear, h_front, ts, dt, alpha);
         mSimulation.updateRoadSlope(acc, gyro, 6, dt);
-        // if (ts - flag_ts >= 5) {
-        //     reset = true;
-        //     // std::cout << "al";
-        //     flag_ts = ts;
-        // }
+
         prev_ts = ts;
-        // if (ts > 5) {
-        //     break;
-        // }
     }
     mSimulation.writeVectorsToCSV("output.csv");
 
