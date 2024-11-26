@@ -49,7 +49,7 @@ int main( int argc, char* args[] )
     time_t prev_ts = 0;
     double dt = 0.0;
     Eigen::Vector2d alpha;
-    alpha << 0.01, 0.01;
+    alpha << 0.001, 0.001;
     bool reset = false;
     double flag_ts = 0.0;
     int steps = 0;
@@ -75,8 +75,8 @@ int main( int argc, char* args[] )
             prev_ts = ts;
             continue;
         }
-        mSimulation.update(acc, gyro, 6, h_rear, h_front, ts, dt, alpha);
-        mSimulation.updateRoadSlope(acc, gyro, 6, dt);
+        mSimulation.update(acc, gyro, 5, h_rear, h_front, ts, dt, alpha);
+        mSimulation.updateRoadSlope(acc, gyro, 5, dt);
 
         prev_ts = ts;
     }

@@ -11,16 +11,16 @@
 
 // -------------------------------------------------- //
 // YOU CAN USE AND MODIFY THESE CONSTANTS HERE
-constexpr double ACCEL_STD = 0.004;
-constexpr double GYRO_STD = 0.001;
-constexpr double INIT_VEL_STD = 0.1;
+constexpr double ACCEL_STD = 1;
+constexpr double GYRO_STD = 0.02 / 180 * M_PI;
+constexpr double INIT_VEL_STD = 10;
 
 constexpr double c_a = 0.1;
 // -------------------------------------------------- //
 MatrixXd R1 = Matrix2d::Identity() * GYRO_STD * GYRO_STD * INIT_VEL_STD * INIT_VEL_STD + Matrix2d::Identity() * ACCEL_STD * ACCEL_STD;
 // MatrixXd R1 = Matrix2d::Constant(2, 2, GYRO_STD* INIT_VEL_STD + ACCEL_STD);
-MatrixXd R2 = MatrixXd::Constant(1, 1, 0.07);
-MatrixXd nG = MatrixXd::Constant(3, 1, 0.08);
+MatrixXd R2 = MatrixXd::Constant(1, 1, 0.009);
+MatrixXd nG = MatrixXd::Constant(3, 1, 0.5/180 * M_PI);
 
 void KalmanFilter::predictionStep(GyroMeasurement gyro, double dt)
 {
@@ -79,6 +79,7 @@ void KalmanFilter::measurementStep1(AccelMeasurement accel, GyroMeasurement gyro
         double R32 = state(1);
         double R33 = state(2);
 
+
         double ay = accel.ay;          
         double az = accel.az;  
 
@@ -133,16 +134,16 @@ void KalmanFilter::measurementStep2()
         double norm_factor = sqrt(R31 * R31 + R32 * R32 + R33 * R33);
 
         std::cout << R31 << " " << R32 << " " << R33 << " " << R32 * R32 + R33 * R33 << std::endl;
-        R31 /= norm_factor;
-        R32 /= norm_factor;
-        R33 /= norm_factor;
+        // R31 /= norm_factor;
+        // R32 /= norm_factor;
+        // R33 /= norm_factor;
 
-        state << R31, R32, R33;
+        // state << R31, R32, R33;
         MatrixXd H2(1, 3);
         H2 << 1, 0, 0;
         double z2_value = 1 - R32 * R32 - R33 * R33;
         double one = R31 * R31 + R32 * R32 + R33 * R33;
-        double z2 = z2_value > 0 ? sqrt(z2_value) : 0; // or handle differently if negative
+        double z2 = z2_value > 0 ? sqrt(z2_value) : sqrt(z2_value) ; // or handle differently if negative
 
         
         VectorXd result = H2 * state; // Result will be a vector
@@ -210,7 +211,7 @@ VehicleState KalmanFilter::getVehicleState()
         // }
         double roll = std::atan2(state[1], state[2]);
         double pitch = std::atan2(-state[0], (state[1]/std::sin(roll)));
-        double pitch_degree = - pitch*180.0 / M_PI;
+        double pitch_degree = pitch*180.0 / M_PI;
         return VehicleState(state[0], state[1], state[2], pitch_degree, roll);
     }
     return VehicleState();

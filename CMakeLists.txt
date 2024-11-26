@@ -15,6 +15,25 @@ set(SRC_CPP
     src/filterroad.cpp
 )
 
+
+# set(ACCEL_STD 1)
+# set(GYRO_STD "0.02 / 180.0 * 3.141592653589793") # Use a string for expressions
+# set(INIT_VEL_STD 10)
+# set(C_A 0.1)
+# set(num_R2 0.1)
+# set(num_nG 0.1)
+# set(num_nG 0.1)
+
+# # Generate the configuration header
+# configure_file(
+#     ${CMAKE_SOURCE_DIR}/config.h.in 
+#     ${CMAKE_BINARY_DIR}/config.h
+#     @ONLY
+# )
+
+
+
+
 add_executable(${PROJECT_NAME}
         ${SRC_CPP}
         )
