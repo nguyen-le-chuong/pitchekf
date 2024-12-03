@@ -16,20 +16,23 @@ set(SRC_CPP
 )
 
 
-# set(ACCEL_STD 1)
-# set(GYRO_STD "0.02 / 180.0 * 3.141592653589793") # Use a string for expressions
-# set(INIT_VEL_STD 10)
-# set(C_A 0.1)
-# set(num_R2 0.1)
-# set(num_nG 0.1)
-# set(num_nG 0.1)
+set(ACCEL_STD 1)
+set(GYRO_STD "0.02 / 180.0 * 3.141592653589793") # Use a string for expressions
+set(INIT_VEL_STD 10)
+set(C_A 0.1)
+set(num_R2 0.009)
+set(num_nG "0.5/180 * 3.141592653589793")
+set(ACCEL_BIAS 0.001)
+set(GYRO_BIAS "0.001 / 180.0 * 3.141592653589793")
+set(ODO_STD 0.001)
+set(ODO_BIAS 0.001)
 
-# # Generate the configuration header
-# configure_file(
-#     ${CMAKE_SOURCE_DIR}/config.h.in 
-#     ${CMAKE_BINARY_DIR}/config.h
-#     @ONLY
-# )
+# Generate the configuration header
+configure_file(
+    ${CMAKE_SOURCE_DIR}/config.h.in 
+    ${CMAKE_BINARY_DIR}/config.h
+    @ONLY
+)
 
 
 

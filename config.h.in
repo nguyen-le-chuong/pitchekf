@@ -4,10 +4,12 @@ constexpr double ACCEL_STD = @ACCEL_STD@;
 constexpr double GYRO_STD = @GYRO_STD@;
 constexpr double INIT_VEL_STD = @INIT_VEL_STD@;
 constexpr double c_a = @C_A@;
-constexpr double num_R2 = @num_R2@
-constexpr double num_nG = @num_nG@
-constexpr double ACCEL_BIAS = @ACCEL_BIAS@
-constexpr double GYRO_BIAS = @GYRO_BIAS@
+constexpr double num_R2 = @num_R2@;
+constexpr double num_nG = @num_nG@;
+constexpr double ACCEL_BIAS = @ACCEL_BIAS@;
+constexpr double GYRO_BIAS = @GYRO_BIAS@;
+constexpr double ODO_STD = @GYRO_BIAS@;
+constexpr double ODO_BIAS = @GYRO_BIAS@;
 
 
 

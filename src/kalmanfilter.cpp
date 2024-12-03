@@ -8,19 +8,20 @@
 
 #include "kalmanfilter.h"
 #include "utils.h"
+#include "../build/config.h"
 
 // -------------------------------------------------- //
 // YOU CAN USE AND MODIFY THESE CONSTANTS HERE
-constexpr double ACCEL_STD = 1;
-constexpr double GYRO_STD = 0.02 / 180 * M_PI;
-constexpr double INIT_VEL_STD = 10;
+// constexpr double ACCEL_STD = 1;
+// constexpr double GYRO_STD = 0.02 / 180 * M_PI;
+// constexpr double INIT_VEL_STD = 10;
 
-constexpr double c_a = 0.1;
+// constexpr double c_a = 0.1;
 // -------------------------------------------------- //
 MatrixXd R1 = Matrix2d::Identity() * GYRO_STD * GYRO_STD * INIT_VEL_STD * INIT_VEL_STD + Matrix2d::Identity() * ACCEL_STD * ACCEL_STD;
 // MatrixXd R1 = Matrix2d::Constant(2, 2, GYRO_STD* INIT_VEL_STD + ACCEL_STD);
-MatrixXd R2 = MatrixXd::Constant(1, 1, 0.009);
-MatrixXd nG = MatrixXd::Constant(3, 1, 0.5/180 * M_PI);
+MatrixXd R2 = MatrixXd::Constant(1, 1, num_R2);
+MatrixXd nG = MatrixXd::Constant(3, 1, num_nG);
 
 void KalmanFilter::predictionStep(GyroMeasurement gyro, double dt)
 {

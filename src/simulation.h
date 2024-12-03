@@ -8,7 +8,7 @@
 #include "kalmanfilter.h"
 #include "car.h"
 #include "sensors.h"
-
+#include "../build/config.h"
 
 struct SimulationParams
 {
@@ -45,9 +45,9 @@ struct SimulationParams
     SimulationParams()
     :profile_name(""),
      time_step(0.1),end_time(120),
-     gyro_enabled(true), gyro_update_rate(10.0),gyro_noise_std(0.009), gyro_bias(0.001 /180 * M_PI),
-     accel_enabled(true), accel_update_rate(10.0),accel_noise_std(0.009), accel_bias(0.001),
-     odo_enabled(true), odo_update_rate(10.0),odo_noise_std(0.001), odo_bias(0.001),
+     gyro_enabled(true), gyro_update_rate(10.0),gyro_noise_std(GYRO_STD), gyro_bias(GYRO_BIAS),
+     accel_enabled(true), accel_update_rate(10.0),accel_noise_std(ACCEL_STD), accel_bias(ACCEL_BIAS),
+     odo_enabled(true), odo_update_rate(10.0),odo_noise_std(ODO_STD), odo_bias(ODO_BIAS),
      car_initial_R31(0.0), car_initial_R32(0.0), car_initial_R33(1.0), car_initial_velocity(0.0)
     {}
 };
