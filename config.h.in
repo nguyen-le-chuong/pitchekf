@@ -10,6 +10,7 @@ constexpr double ACCEL_BIAS = @ACCEL_BIAS@;
 constexpr double GYRO_BIAS = @GYRO_BIAS@;
 constexpr double ODO_STD = @GYRO_BIAS@;
 constexpr double ODO_BIAS = @GYRO_BIAS@;
+constexpr double COR = @COR@
 
 
 

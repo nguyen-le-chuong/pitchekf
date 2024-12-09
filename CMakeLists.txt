@@ -26,6 +26,7 @@ set(ACCEL_BIAS 0.001)
 set(GYRO_BIAS "0.001 / 180.0 * 3.141592653589793")
 set(ODO_STD 0.001)
 set(ODO_BIAS 0.001)
+set(COR 0.01)
 
 # Generate the configuration header
 configure_file(
