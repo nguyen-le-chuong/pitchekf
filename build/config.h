@@ -10,6 +10,7 @@ constexpr double ACCEL_BIAS = 0.001;
 constexpr double GYRO_BIAS = 0.001 / 180.0 * 3.141592653589793;
 constexpr double ODO_STD = 0.001 / 180.0 * 3.141592653589793;
 constexpr double ODO_BIAS = 0.001 / 180.0 * 3.141592653589793;
+constexpr double COR = 0.01;
 
 
 
